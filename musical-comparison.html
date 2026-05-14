@@ -1,0 +1,868 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>聖誕音樂劇比較</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@300;400;600;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --gold: #c9a84c;
+    --gold-light: #e8c97a;
+    --gold-dim: #7a6030;
+    --dark: #0d0b08;
+    --dark-mid: #1a1610;
+    --dark-warm: #2a2218;
+    --cream: #f5ead8;
+    --cream-dim: #c8b89a;
+    --blue-cold: #4a7fa5;
+    --blue-dim: #2a4a62;
+    --warm-mid: #8b6914;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--dark);
+    color: var(--cream);
+    font-family: 'Noto Serif TC', serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* Star field background */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      radial-gradient(1px 1px at 15% 20%, rgba(255,255,220,0.6) 0%, transparent 100%),
+      radial-gradient(1px 1px at 72% 8%, rgba(255,255,220,0.5) 0%, transparent 100%),
+      radial-gradient(1.5px 1.5px at 40% 55%, rgba(255,255,220,0.4) 0%, transparent 100%),
+      radial-gradient(1px 1px at 88% 35%, rgba(255,255,220,0.6) 0%, transparent 100%),
+      radial-gradient(1px 1px at 5% 80%, rgba(255,255,220,0.3) 0%, transparent 100%),
+      radial-gradient(1px 1px at 60% 90%, rgba(255,255,220,0.4) 0%, transparent 100%),
+      radial-gradient(1px 1px at 92% 70%, rgba(255,255,220,0.5) 0%, transparent 100%),
+      radial-gradient(1px 1px at 28% 45%, rgba(255,255,220,0.3) 0%, transparent 100%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 60px 24px 80px;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* Header */
+  header {
+    text-align: center;
+    margin-bottom: 64px;
+    animation: fadeDown 0.8s ease both;
+  }
+
+  .subtitle-top {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 13px;
+    letter-spacing: 4px;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 20px;
+    opacity: 0.9;
+  }
+
+  h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(28px, 5vw, 46px);
+    font-weight: 700;
+    line-height: 1.2;
+    color: var(--cream);
+    margin-bottom: 16px;
+  }
+
+  h1 span {
+    color: var(--gold);
+  }
+
+  .header-divider {
+    width: 80px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    margin: 20px auto;
+  }
+
+  .header-desc {
+    font-size: 14px;
+    color: var(--cream-dim);
+    line-height: 1.8;
+    max-width: 500px;
+    margin: 0 auto;
+  }
+
+  /* Show titles */
+  .show-titles {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 48px;
+    animation: fadeUp 0.8s 0.2s ease both;
+  }
+
+  .show-card {
+    padding: 20px 24px;
+    border-radius: 2px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .show-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    opacity: 0.08;
+  }
+
+  .show-card.joseph {
+    background: linear-gradient(135deg, #2a1f0a, #1a1200);
+    border: 1px solid var(--gold-dim);
+    border-left: 3px solid var(--gold);
+  }
+
+  .show-card.joseph::before {
+    background: radial-gradient(circle at top right, #c9a84c, transparent 60%);
+  }
+
+  .show-card.christmas {
+    background: linear-gradient(135deg, #0a1520, #060d18);
+    border: 1px solid var(--blue-dim);
+    border-left: 3px solid var(--blue-cold);
+  }
+
+  .show-card.christmas::before {
+    background: radial-gradient(circle at top right, #4a7fa5, transparent 60%);
+  }
+
+  .show-label {
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+    font-weight: 600;
+  }
+
+  .joseph .show-label { color: var(--gold); }
+  .christmas .show-label { color: var(--blue-cold); }
+
+  .show-title {
+    font-size: 18px;
+    font-weight: 600;
+    line-height: 1.4;
+    color: var(--cream);
+  }
+
+  .show-meta {
+    font-size: 12px;
+    color: var(--cream-dim);
+    margin-top: 8px;
+    line-height: 1.6;
+  }
+
+  /* Section headers */
+  .section {
+    margin-bottom: 48px;
+    animation: fadeUp 0.8s ease both;
+  }
+
+  .section:nth-child(3) { animation-delay: 0.3s; }
+  .section:nth-child(4) { animation-delay: 0.4s; }
+  .section:nth-child(5) { animation-delay: 0.5s; }
+  .section:nth-child(6) { animation-delay: 0.6s; }
+
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 11px;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .section-title::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, var(--gold-dim), transparent);
+  }
+
+  /* Comparison table */
+  .table-wrap {
+    border: 1px solid rgba(201, 168, 76, 0.15);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  thead tr {
+    background: rgba(201, 168, 76, 0.08);
+  }
+
+  thead th {
+    padding: 14px 18px;
+    text-align: left;
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    font-weight: 600;
+    color: var(--gold);
+    border-bottom: 1px solid rgba(201, 168, 76, 0.2);
+  }
+
+  thead th:first-child { color: var(--cream-dim); }
+
+  tbody tr {
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    transition: background 0.2s;
+  }
+
+  tbody tr:last-child { border-bottom: none; }
+  tbody tr:hover { background: rgba(255,255,255,0.03); }
+
+  tbody tr:nth-child(even) {
+    background: rgba(255,255,255,0.02);
+  }
+  tbody tr:nth-child(even):hover {
+    background: rgba(255,255,255,0.04);
+  }
+
+  td {
+    padding: 14px 18px;
+    font-size: 13.5px;
+    line-height: 1.7;
+    vertical-align: top;
+    color: var(--cream-dim);
+    border-right: 1px solid rgba(255,255,255,0.04);
+  }
+
+  td:last-child { border-right: none; }
+
+  td:first-child {
+    font-weight: 600;
+    color: var(--cream);
+    font-size: 13px;
+    white-space: nowrap;
+    min-width: 100px;
+  }
+
+  .highlight-gold { color: var(--gold-light); }
+  .highlight-blue { color: #7cb8d8; }
+
+  /* Person count display */
+  .person-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+
+  .person-card {
+    padding: 20px;
+    border-radius: 3px;
+    border: 1px solid rgba(255,255,255,0.07);
+  }
+
+  .person-card.joseph-p {
+    background: linear-gradient(160deg, #1e1508, #120e04);
+    border-color: rgba(201, 168, 76, 0.2);
+  }
+
+  .person-card.christmas-p {
+    background: linear-gradient(160deg, #0c1520, #060d18);
+    border-color: rgba(74, 127, 165, 0.2);
+  }
+
+  .person-card-title {
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    font-weight: 600;
+    margin-bottom: 14px;
+  }
+
+  .joseph-p .person-card-title { color: var(--gold); }
+  .christmas-p .person-card-title { color: var(--blue-cold); }
+
+  .person-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding: 6px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    font-size: 13px;
+  }
+
+  .person-row:last-child { border-bottom: none; }
+
+  .person-name { color: var(--cream-dim); }
+  .person-count {
+    font-family: 'Playfair Display', serif;
+    font-size: 18px;
+    font-weight: 700;
+  }
+
+  .joseph-p .person-count { color: var(--gold-light); }
+  .christmas-p .person-count { color: #7cb8d8; }
+
+  .person-count small {
+    font-size: 11px;
+    font-family: 'Noto Serif TC', serif;
+    font-weight: 400;
+    margin-left: 2px;
+    opacity: 0.7;
+  }
+
+  /* Cost grid */
+  .cost-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+
+  .cost-col-title {
+    font-size: 12px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    font-weight: 600;
+    margin-bottom: 12px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+  }
+
+  .joseph-col .cost-col-title { color: var(--gold); }
+  .christmas-col .cost-col-title { color: var(--blue-cold); }
+
+  .cost-col {
+    padding: 20px;
+    border-radius: 3px;
+    border: 1px solid rgba(255,255,255,0.07);
+  }
+
+  .joseph-col {
+    background: linear-gradient(160deg, #1e1508, #120e04);
+    border-color: rgba(201, 168, 76, 0.15);
+  }
+
+  .christmas-col {
+    background: linear-gradient(160deg, #0c1520, #060d18);
+    border-color: rgba(74, 127, 165, 0.15);
+  }
+
+  .cost-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 8px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    font-size: 13px;
+  }
+
+  .cost-item:last-child { border-bottom: none; }
+
+  .cost-label { color: var(--cream-dim); flex: 1; }
+
+  .cost-tag {
+    font-size: 11px;
+    padding: 2px 8px;
+    border-radius: 20px;
+    font-weight: 600;
+    white-space: nowrap;
+    letter-spacing: 0.5px;
+  }
+
+  .tag-high { background: rgba(200, 80, 80, 0.2); color: #f08080; border: 1px solid rgba(200,80,80,0.3); }
+  .tag-mid { background: rgba(201, 168, 76, 0.15); color: var(--gold-light); border: 1px solid rgba(201,168,76,0.3); }
+  .tag-low { background: rgba(80, 160, 80, 0.15); color: #90d090; border: 1px solid rgba(80,160,80,0.3); }
+
+  /* Stars rating */
+  .star-row {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .stars {
+    display: inline-flex;
+    gap: 2px;
+  }
+
+  .star {
+    font-size: 14px;
+    line-height: 1;
+  }
+
+  .star.on { color: var(--gold); }
+  .star.off { color: rgba(201, 168, 76, 0.2); }
+
+  .star-label {
+    font-size: 12px;
+    color: var(--cream-dim);
+    margin-left: 4px;
+  }
+
+  /* Effect comparison special layout */
+  .effect-grid {
+    display: grid;
+    grid-template-columns: auto 1fr 1fr;
+    gap: 0;
+    border: 1px solid rgba(201, 168, 76, 0.15);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+
+  .effect-header {
+    padding: 12px 16px;
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    font-weight: 600;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+  }
+
+  .effect-header.label-col {
+    color: var(--cream-dim);
+    background: rgba(255,255,255,0.03);
+    border-right: 1px solid rgba(255,255,255,0.06);
+  }
+
+  .effect-header.joseph-h {
+    color: var(--gold);
+    background: rgba(201, 168, 76, 0.06);
+    border-right: 1px solid rgba(255,255,255,0.06);
+    text-align: center;
+  }
+
+  .effect-header.christmas-h {
+    color: var(--blue-cold);
+    background: rgba(74, 127, 165, 0.06);
+    text-align: center;
+  }
+
+  .effect-row {
+    display: contents;
+  }
+
+  .effect-cell {
+    padding: 12px 16px;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    border-right: 1px solid rgba(255,255,255,0.06);
+    font-size: 13px;
+    vertical-align: middle;
+  }
+
+  .effect-cell.last-col { border-right: none; }
+  .effect-cell.label { color: var(--cream); font-weight: 600; background: rgba(255,255,255,0.02); }
+  .effect-cell.joseph-cell { background: rgba(201, 168, 76, 0.03); text-align: center; }
+  .effect-cell.christmas-cell { background: rgba(74, 127, 165, 0.03); text-align: center; }
+
+  .effect-row:last-child .effect-cell { border-bottom: none; }
+
+  /* Recommendation box */
+  .recommendation {
+    background: linear-gradient(135deg, #1a1508, #100c04);
+    border: 1px solid var(--gold-dim);
+    border-radius: 4px;
+    padding: 28px 28px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .recommendation::before {
+    content: '';
+    position: absolute;
+    top: 0; right: 0;
+    width: 200px; height: 200px;
+    background: radial-gradient(circle, rgba(201,168,76,0.08), transparent 70%);
+    pointer-events: none;
+  }
+
+  .rec-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 18px;
+    color: var(--gold-light);
+    margin-bottom: 16px;
+  }
+
+  .rec-body {
+    font-size: 14px;
+    line-height: 1.9;
+    color: var(--cream-dim);
+  }
+
+  .rec-body strong {
+    color: var(--cream);
+  }
+
+  .rec-total {
+    margin-top: 20px;
+    padding-top: 16px;
+    border-top: 1px solid rgba(201,168,76,0.2);
+    display: flex;
+    gap: 32px;
+    flex-wrap: wrap;
+  }
+
+  .rec-stat {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .rec-stat-label {
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--gold-dim);
+  }
+
+  .rec-stat-value {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    color: var(--gold-light);
+    line-height: 1;
+  }
+
+  .rec-stat-sub {
+    font-size: 12px;
+    color: var(--cream-dim);
+  }
+
+  /* Animations */
+  @keyframes fadeDown {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Responsive */
+  @media (max-width: 640px) {
+    .show-titles, .person-grid, .cost-grid { grid-template-columns: 1fr; }
+    .effect-grid {
+      grid-template-columns: 1fr;
+      display: block;
+    }
+    .effect-header.label-col { display: none; }
+    .effect-cell.label {
+      font-size: 11px;
+      padding: 8px 12px 4px;
+      border-bottom: none;
+      background: rgba(255,255,255,0.05);
+    }
+    .effect-cell {
+      display: block;
+      border-right: none;
+    }
+    .effect-cell.joseph-cell, .effect-cell.christmas-cell { text-align: left; }
+    .rec-total { gap: 20px; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <!-- Header -->
+  <header>
+    <div class="subtitle-top">Christmas Musical · 2024</div>
+    <h1>兩齣音樂劇<span>比較分析</span></h1>
+    <div class="header-divider"></div>
+    <p class="header-desc">人物配置、製作成本、演出效果的全面對照</p>
+  </header>
+
+  <!-- Show title cards -->
+  <div class="show-titles">
+    <div class="show-card joseph">
+      <div class="show-label">故事一 · 上半場</div>
+      <div class="show-title">從坑底到麥田<br>同一位神的應許</div>
+      <div class="show-meta">弟兄組 + 姊妹組 · 4首歌 · 15–20分鐘</div>
+    </div>
+    <div class="show-card christmas">
+      <div class="show-label">故事二 · 壓軸</div>
+      <div class="show-title">假如沒有聖誕節</div>
+      <div class="show-meta">混齡演員 + 老師 · 5首歌 · 15–20分鐘</div>
+    </div>
+  </div>
+
+  <!-- Section 1: People -->
+  <div class="section">
+    <div class="section-title">一 · 人物與旁白人數</div>
+    <div class="person-grid">
+      <div class="person-card joseph-p">
+        <div class="person-card-title">從坑底到麥田</div>
+        <div class="person-row">
+          <span class="person-name">主要演員</span>
+          <span class="person-count">8–10<small>人</small></span>
+        </div>
+        <div class="person-row">
+          <span class="person-name">旁白</span>
+          <span class="person-count">2–4<small>人</small></span>
+        </div>
+        <div class="person-row">
+          <span class="person-name">最低人數</span>
+          <span class="person-count">10–13<small>人</small></span>
+        </div>
+        <div class="person-row">
+          <span class="person-name">建議人數</span>
+          <span class="person-count highlight-gold">15–20<small>人</small></span>
+        </div>
+      </div>
+      <div class="person-card christmas-p">
+        <div class="person-card-title">假如沒有聖誕節</div>
+        <div class="person-row">
+          <span class="person-name">主要演員</span>
+          <span class="person-count">2<small>人</small></span>
+        </div>
+        <div class="person-row">
+          <span class="person-name">旁白群</span>
+          <span class="person-count">4–10<small>人</small></span>
+        </div>
+        <div class="person-row">
+          <span class="person-name">最低人數</span>
+          <span class="person-count">6–10<small>人</small></span>
+        </div>
+        <div class="person-row">
+          <span class="person-name">建議人數</span>
+          <span class="person-count highlight-blue">8–12<small>人</small></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Character detail table -->
+    <div style="margin-top:16px;" class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>角色</th>
+            <th>從坑底到麥田</th>
+            <th>假如沒有聖誕節</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>核心角色</td>
+            <td>約瑟、路得、拿俄米、波阿斯</td>
+            <td>老師、另一個聲音</td>
+          </tr>
+          <tr>
+            <td>群演角色</td>
+            <td>哥哥群（4–5人）、俄珥巴</td>
+            <td>世人甲乙丙丁（即旁白群）</td>
+          </tr>
+          <tr>
+            <td>分組設計</td>
+            <td>弟兄組 + 姊妹組，天然分工</td>
+            <td>混齡，彈性大，可依人數擴充</td>
+          </tr>
+          <tr>
+            <td>旁白形式</td>
+            <td>雙線交錯，兩側各自旁白</td>
+            <td>旁白群輪流，統一口吻</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Section 2: Cost -->
+  <div class="section">
+    <div class="section-title">二 · 預估製作成本</div>
+    <div class="cost-grid">
+      <div class="cost-col joseph-col">
+        <div class="cost-col-title">從坑底到麥田</div>
+        <div class="cost-item">
+          <span class="cost-label">排練時間</span>
+          <span class="cost-tag tag-high">6–8週</span>
+        </div>
+        <div class="cost-item">
+          <span class="cost-label">服裝（兩種時代風格）</span>
+          <span class="cost-tag tag-high">較高</span>
+        </div>
+        <div class="cost-item">
+          <span class="cost-label">道具（彩衣、麥穗等）</span>
+          <span class="cost-tag tag-mid">中等</span>
+        </div>
+        <div class="cost-item">
+          <span class="cost-label">燈光（雙側追光）</span>
+          <span class="cost-tag tag-high">較複雜</span>
+        </div>
+        <div class="cost-item">
+          <span class="cost-label">音樂（弦樂+吉他+鋼琴）</span>
+          <span class="cost-tag tag-high">需編曲</span>
+        </div>
+        <div class="cost-item">
+          <span class="cost-label">場地（需左右分區+高台）</span>
+          <span class="cost-tag tag-high">中大型舞台</span>
+        </div>
+        <div class="cost-item">
+          <span class="cost-label">後製錄影</span>
+          <span class="cost-tag tag-mid">中高</span>
+        </div>
+      </div>
+      <div class="cost-col christmas-col">
+        <div class="cost-col-title">假如沒有聖誕節</div>
+        <div class="cost-item">
+          <span class="cost-label">排練時間</span>
+          <span class="cost-tag tag-mid">4–6週</span>
+        </div>
+        <div class="cost-item">
+          <span class="cost-label">服裝（現代便裝）</span>
+          <span class="cost-tag tag-low">低</span>
+        </div>
+        <div class="cost-item">
+          <span class="cost-label">道具（椅子+一本書）</span>
+          <span class="cost-tag tag-low">極低</span>
+        </div>
+        <div class="cost-item">
+          <span class="cost-label">燈光（冷暖轉換為核心）</span>
+          <span class="cost-tag tag-mid">中等</span>
+        </div>
+        <div class="cost-item">
+          <span class="cost-label">音樂（鋼琴為主）</span>
+          <span class="cost-tag tag-low">較易執行</span>
+        </div>
+        <div class="cost-item">
+          <span class="cost-label">場地（任何舞台均可）</span>
+          <span class="cost-tag tag-low">彈性大</span>
+        </div>
+        <div class="cost-item">
+          <span class="cost-label">後製錄影</span>
+          <span class="cost-tag tag-mid">中等</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Section 3: Effect -->
+  <div class="section">
+    <div class="section-title">三 · 演出效果比較</div>
+    <div class="effect-grid">
+      <div class="effect-header label-col">面向</div>
+      <div class="effect-header joseph-h">從坑底到麥田</div>
+      <div class="effect-header christmas-h last-col">假如沒有聖誕節</div>
+
+      <!-- Row 1 -->
+      <div class="effect-cell label">敘事張力</div>
+      <div class="effect-cell joseph-cell">
+        <div class="star-row" style="justify-content:center">
+          <div class="stars">⭐⭐⭐⭐⭐</div>
+        </div>
+        <div class="star-label">雙線並行，高度戲劇感</div>
+      </div>
+      <div class="effect-cell christmas-cell last-col">
+        <div class="star-row" style="justify-content:center">
+          <div class="stars">⭐⭐⭐⭐</div>
+        </div>
+        <div class="star-label">反向假設，思想衝擊強</div>
+      </div>
+
+      <!-- Row 2 -->
+      <div class="effect-cell label">感情渲染</div>
+      <div class="effect-cell joseph-cell">
+        <div class="stars">⭐⭐⭐⭐⭐</div>
+        <div class="star-label">饒恕＋忠心，催淚點多</div>
+      </div>
+      <div class="effect-cell christmas-cell last-col">
+        <div class="stars">⭐⭐⭐⭐</div>
+        <div class="star-label">冷暖對比，情緒U型弧線</div>
+      </div>
+
+      <!-- Row 3 -->
+      <div class="effect-cell label">神學深度</div>
+      <div class="effect-cell joseph-cell">
+        <div class="stars">⭐⭐⭐⭐</div>
+        <div class="star-label">預表論，需觀眾有基礎</div>
+      </div>
+      <div class="effect-cell christmas-cell last-col">
+        <div class="stars">⭐⭐⭐⭐⭐</div>
+        <div class="star-label">直指道成肉身，更普世</div>
+      </div>
+
+      <!-- Row 4 -->
+      <div class="effect-cell label">執行難度</div>
+      <div class="effect-cell joseph-cell">
+        <div class="stars">⭐⭐⭐⭐⭐</div>
+        <div class="star-label">高（雙線協調、走位複雜）</div>
+      </div>
+      <div class="effect-cell christmas-cell last-col">
+        <div class="stars">⭐⭐⭐</div>
+        <div class="star-label">中（燈光是最關鍵技術點）</div>
+      </div>
+
+      <!-- Row 5 -->
+      <div class="effect-cell label">適合對象</div>
+      <div class="effect-cell joseph-cell">有信仰基礎的會眾<br>親子家庭</div>
+      <div class="effect-cell christmas-cell last-col">慕道友<br>第一次來的觀眾</div>
+
+      <!-- Row 6 -->
+      <div class="effect-cell label">記憶亮點</div>
+      <div class="effect-cell joseph-cell">彩衣、約瑟蹲下饒恕的動作</div>
+      <div class="effect-cell christmas-cell last-col">老師合書、黑暗世界段落</div>
+
+      <!-- Row 7 -->
+      <div class="effect-cell label">壓軸效果</div>
+      <div class="effect-cell joseph-cell">需鋪墊才到高峰</div>
+      <div class="effect-cell christmas-cell last-col">放壓軸更有力，反差爆發感強</div>
+    </div>
+  </div>
+
+  <!-- Section 4: Recommendation -->
+  <div class="section">
+    <div class="section-title">四 · 組合建議</div>
+    <div class="recommendation">
+      <div class="rec-title">前場 + 壓軸，相輔相成</div>
+      <div class="rec-body">
+        兩個劇本設計本就是<strong>前後場</strong>的組合：《從坑底到麥田》演完，《假如沒有聖誕節》接壓軸。這個安排層次分明——
+        <br><br>
+        前者用<strong>故事感情</strong>打開觀眾的心，帶入約瑟的饒恕與路得的忠心；後者用<strong>反向思考</strong>直接逼問觀眾：你知道祂來了嗎？先被感動，再被挑戰，是非常有力的佈道結構。
+        <br><br>
+        部分演員可在兩劇共用，進一步降低整體執行成本。
+      </div>
+      <div class="rec-total">
+        <div class="rec-stat">
+          <span class="rec-stat-label">合計演員需求</span>
+          <span class="rec-stat-value">18–25</span>
+          <span class="rec-stat-sub">人（部分可共用）</span>
+        </div>
+        <div class="rec-stat">
+          <span class="rec-stat-label">總排練建議</span>
+          <span class="rec-stat-value">8–10</span>
+          <span class="rec-stat-sub">週，每週2次</span>
+        </div>
+        <div class="rec-stat">
+          <span class="rec-stat-label">總演出時長</span>
+          <span class="rec-stat-value">30–40</span>
+          <span class="rec-stat-sub">分鐘（含換場）</span>
+        </div>
+        <div class="rec-stat">
+          <span class="rec-stat-label">適合規模</span>
+          <span class="rec-stat-value" style="font-size:16px;line-height:1.3">完整<br>聖誕晚會</span>
+          <span class="rec-stat-sub">教會 / 學校 / 社區</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>
